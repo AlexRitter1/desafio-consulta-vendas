@@ -1,6 +1,7 @@
 package com.devsuperior.dsmeta.controllers;
 
 import com.devsuperior.dsmeta.dto.ReportResponseDTO;
+import com.devsuperior.dsmeta.dto.SumaryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.services.SaleService;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/sales")
@@ -35,9 +37,13 @@ public class SaleController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping(value = "/summary")
-	public ResponseEntity<?> getSummary() {
-		// TODO
-		return null;
+	@GetMapping("/summary")
+	public ResponseEntity<List<SumaryResponseDTO>> getSummary(
+			@RequestParam(value = "minDate", defaultValue = "") String minDate,
+			@RequestParam(value = "maxDate", defaultValue = "") String maxDate
+	) {
+		return ResponseEntity.ok(
+				service.getSummary(minDate, maxDate)
+		);
 	}
 }
